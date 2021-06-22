@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\Handler;
+use App\Http\Resources\UserResource;
 use Exception;
 
 class UserController extends ApiController
@@ -33,7 +34,9 @@ class UserController extends ApiController
         } catch ( Exception $e) {
             return $this->errorResponse('Error en la consulta', 404 );
         }
-        return $this->showAll( $users );
+        return UserResource::collection(  $users);
+        // return $this->showAll( $users );
+        // return $this->showAll( new UserResource( $user ) );
 
         // return response()->json(['data' => $users], 200);
     }
@@ -79,6 +82,7 @@ class UserController extends ApiController
             return $this->errorResponse('Usuario no encontrado', 404);
         }
         return $this->showOne( $user );
+        // return new UserResource(  $user );
     }
 
     /**
